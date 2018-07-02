@@ -102,8 +102,6 @@ std::string ltrim(std::string str)
 	if (it == str.end())
 		return "";
 
-
-
 	return str.substr(it-str.begin());
 }
 
