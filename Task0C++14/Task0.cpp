@@ -1,7 +1,6 @@
 #include<iostream>
 #include<string>
 #include<algorithm>
-#include<string_view>
 //C++-14
 
 /*
@@ -123,7 +122,7 @@ return ltrim(rtrim(str));
 
 //C++-17
 
-std::string restriction = " \f\n\r\t\v";
+/*std::string restriction = " \f\n\r\t\v";
 
 std::string_view ltrim(std::string_view view)
 {
@@ -153,4 +152,4 @@ std::string_view rtrim(std::string_view view)
 std::string_view trim(std::string_view view)
 {
 	return ltrim(rtrim(view));
-}
+}*/

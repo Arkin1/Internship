@@ -2,11 +2,11 @@
 #include<chrono>
 #include <ratio>
 #include<thread>
-#include"Task0.h"
+#include"Task1.h"
 using namespace std;
 using namespace chrono;
 
-template <class F, class ... Args>
+/*template <class F, class ... Args>
 auto test(F f, Args &&... args) -> pair<decltype(f(std::forward<Args>(args)...)), std::chrono::high_resolution_clock::duration> {
 	auto pre = high_resolution_clock::now();
 	auto res = f(std::forward<Args>(args)...);
@@ -55,19 +55,56 @@ int correctness_test_trim() {
 	if (!("" == trim(""))) ++failures;
 	if (!("" == trim("  "))) ++failures;
 	return failures;
-}
+}*/
 
 
 int main()
 {
-	cout << correctness_test_ltrim() << "\n";
+	/*cout << correctness_test_ltrim() << "\n";
 	cout << correctness_test_rtrim() << "\n";
 	cout << correctness_test_trim() << "\n";
 
 	enum { N = 1000000 };
 	auto res = test(speed_test_trim<N>);
 	cout << "Speed test took " << std::chrono::duration_cast<std::chrono::microseconds>(res.second).count()
-		<< " us to perform " << N << " trim() calls" << endl;
+		<< " us to perform " << N << " trim() calls" << endl;*/
+
+
+	try
+	{
+		cout << integral_div(4, 3) << "\n";
+
+		cout << integral_div(2, 5) << "\n";
+
+		cout << integral_div(5, 5) << '\n';
+
+		cout << integral_div(integral_div(integral_div(8,2), 2), 2)<<'\n';
+	}
+	catch (div_zero_exception& e)
+	{
+		cout << e.what() << '\n';
+	}
+
+	try
+	{
+		cout << integral_div(2, 0) << "\n";
+
+	}
+	catch (div_zero_exception& e)
+	{
+		cout << e.what() << '\n';
+	}
+
+	try
+	{
+		cout << integral_div(2, integral_div(2,3)) << "\n";
+
+	}
+	catch (div_zero_exception& e)
+	{
+		cout << e.what() << '\n';
+	}
+
 	
 	return 0;
 }
