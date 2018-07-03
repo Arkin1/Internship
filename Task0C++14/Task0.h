@@ -3,8 +3,9 @@
 #include"Task0.h"
 
 
-std::string ltrim(std::string str);
+std::string_view ltrim(std::string_view view);
 
-std::string rtrim(std::string str);
+std::string_view rtrim(std::string_view str);
 
-std::string trim(std::string str);
+std::string_view trim(std::string_view str);
+

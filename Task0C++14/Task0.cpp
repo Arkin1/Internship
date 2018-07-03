@@ -1,6 +1,8 @@
 #include<iostream>
 #include<string>
 #include<algorithm>
+#include<string_view>
+//C++-14
 
 /*
 std::string ltrim(std::string str)
@@ -93,9 +95,7 @@ std::string trim(std::string str)
 }
 */
 
-
-
-std::string ltrim(std::string str)
+/*std::string ltrim(std::string str)
 {
 	auto it = std::find_if(str.begin(), str.end(), [](char c) { return !isspace(c);  });
 
@@ -119,4 +119,38 @@ std::string rtrim(std::string str)
 std::string trim(std::string str)
 {
 return ltrim(rtrim(str));
+}*/
+
+//C++-17
+
+std::string restriction = " \f\n\r\t\v";
+
+std::string_view ltrim(std::string_view view)
+{
+	size_t pos = view.find_first_not_of(restriction);
+
+	if (pos == std::string::npos)
+		return "";
+
+	view.remove_prefix(pos);
+
+	return view;
+}
+
+std::string_view rtrim(std::string_view view)
+{
+
+	size_t pos = view.find_last_not_of(restriction);
+
+	if (pos == std::string::npos)
+		return "";
+
+	view.remove_suffix(view.size() - (pos + 1));
+
+	return view;
+}
+
+std::string_view trim(std::string_view view)
+{
+	return ltrim(rtrim(view));
 }
