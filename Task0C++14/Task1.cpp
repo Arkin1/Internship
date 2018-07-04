@@ -1,11 +1,14 @@
 #include "Task1.h"
 
-int integral_div(int num, int denom)
+
+
+std::pair<int,bool> integral_div(int num, int denom)
 {
 	
 	if (denom == 0)
-		throw div_zero_exception();
+		return { -1,true };
 
-	return num / denom;
+
+	return { num / denom, false };
 
 }

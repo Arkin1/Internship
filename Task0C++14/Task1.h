@@ -1,7 +1,7 @@
 #pragma once
 
 #include<exception>
-
+#include <optional>
 class div_zero_exception : std::exception
 {
 public:
@@ -11,4 +11,4 @@ public:
 	}
 };
 
-int integral_div(int num, int denom);
+std::pair<int,bool> integral_div(int num, int denom);

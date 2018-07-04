@@ -3,6 +3,7 @@
 #include <ratio>
 #include<thread>
 #include"Task1.h"
+
 using namespace std;
 using namespace chrono;
 
@@ -70,41 +71,14 @@ int main()
 		<< " us to perform " << N << " trim() calls" << endl;*/
 
 
-	try
-	{
-		cout << integral_div(4, 3) << "\n";
-
-		cout << integral_div(2, 5) << "\n";
-
-		cout << integral_div(5, 5) << '\n';
-
-		cout << integral_div(integral_div(integral_div(8,2), 2), 2)<<'\n';
-	}
-	catch (div_zero_exception& e)
-	{
-		cout << e.what() << '\n';
-	}
-
-	try
-	{
-		cout << integral_div(2, 0) << "\n";
-
-	}
-	catch (div_zero_exception& e)
-	{
-		cout << e.what() << '\n';
-	}
-
-	try
-	{
-		cout << integral_div(2, integral_div(2,3)) << "\n";
-
-	}
-	catch (div_zero_exception& e)
-	{
-		cout << e.what() << '\n';
-	}
-
 	
+	if (int num, denom; cin >> num >> denom)
+	{
+		if (const auto& [value,error] = integral_div(num, denom); !error)
+			cout << value << endl;
+		else
+			cerr << "Division by zero\n";
+	}
+
 	return 0;
 }
