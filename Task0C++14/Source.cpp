@@ -2,6 +2,8 @@
 #include<chrono>
 #include <ratio>
 #include<thread>
+#include<string>
+#include<map>
 #include"Task1.h"
 
 using namespace std;
@@ -59,7 +61,7 @@ int correctness_test_trim() {
 }*/
 
 
-int main()
+int mainmain()
 {
 	/*cout << correctness_test_ltrim() << "\n";
 	cout << correctness_test_rtrim() << "\n";
@@ -72,12 +74,25 @@ int main()
 
 
 	
-	if (int num, denom; cin >> num >> denom)
+	/*if (int num, denom; cin >> num >> denom)
 	{
 		if (const auto& [value,error] = integral_div(num, denom); !error)
 			cout << value << endl;
 		else
 			cerr << "Division by zero\n";
+	}*/
+
+	map<string, int> mp;
+
+	for (int i = 0; i <= 9; ++i)
+	{
+		mp.insert({ string("abc") + (char)(i+'0'), i });
+	}
+
+
+	for (const auto&[key, value] : mp)
+	{
+		cout << key << " " << value << "\n";
 	}
 
 	return 0;
