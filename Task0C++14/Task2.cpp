@@ -56,14 +56,13 @@ struct VecCreator
 template <typename T, int N>
 auto create_temp_buffer()
 {
-	;
-
+	
 	return std::conditional_t<  (N * sizeof(T) <= 4 * 1024), ArrCreator, VecCreator >{}.operator()<T, N>();
 
 }
 
 
-int main()
+int mainmainmain()
 {
 
 
