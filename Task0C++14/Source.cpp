@@ -81,7 +81,7 @@ int mainmain()
 		else
 			cerr << "Division by zero\n";
 	}*/
-
+	/*
 	map<string, int> mp;
 
 	for (int i = 0; i <= 9; ++i)
@@ -94,6 +94,7 @@ int mainmain()
 	{
 		cout << key << " " << value << "\n";
 	}
+	*/
 
 	return 0;
 }

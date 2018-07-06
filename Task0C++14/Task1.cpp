@@ -1,6 +1,6 @@
-#include "Task1.h"
 
 
+/*
 
 std::pair<int,bool> integral_div(int num, int denom)
 {
@@ -12,3 +12,4 @@ std::pair<int,bool> integral_div(int num, int denom)
 	return { num / denom, false };
 
 }
+*/

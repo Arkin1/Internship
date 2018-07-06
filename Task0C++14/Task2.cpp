@@ -34,7 +34,7 @@ create_temp_buffer()
 {
 	return array<T, N>{};
 }*/
-struct ArrCreator
+/*struct ArrCreator
 {
 	template <class T, int N>
 	auto operator()()
@@ -76,4 +76,4 @@ int mainmainmain()
 	
 
 	return 0;
-}
+}*/

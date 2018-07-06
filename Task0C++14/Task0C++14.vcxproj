@@ -77,7 +77,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,6 +123,7 @@
     <ClCompile Include="Task1.cpp" />
     <ClCompile Include="Task2.cpp" />
     <ClCompile Include="Task3.cpp" />
+    <ClCompile Include="Task4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Task0.h" />

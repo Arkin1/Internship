@@ -1,8 +1,8 @@
 #pragma once
 
 #include<exception>
-#include <optional>
-class div_zero_exception : std::exception
+
+/*class div_zero_exception : std::exception
 {
 public:
 	const char* what() const throw()
@@ -11,4 +11,4 @@ public:
 	}
 };
 
-std::pair<int,bool> integral_div(int num, int denom);
+std::pair<int,bool> integral_div(int num, int denom);*/

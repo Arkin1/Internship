@@ -1,27 +1,33 @@
-#include<iostream>
-
+/*#include<iostream>
+#include<type_traits>
 using namespace std;
 
 
-template <class T>
+template <typename T>
 constexpr auto threshold = static_cast<T>(0.0000010);
 
-template <class T>
+template <typename T>
 constexpr T absolute(T val)
 {
 	return val < T{ 0 } ? -val : val;
 }
 
-template<class T>
+template<typename T>
 constexpr T evaluate(T a, T b)
 {
-	return absolute(a - b) <= threshold<T>;
+	if (is_floating_point <T> ::value || is_floating_point<T>::value)
+	{
+		return absolute(a - b) <= threshold<T>;
+	}
+	else
+		return  a==b;
+	
 }
 
 template<typename T>
 constexpr bool  close_enough(T a, T b)
 {
-	if (evaluate(a,b))
+	if constexpr (absolute(a - b) <= threshold<T>)
 	{
 		//cout << "Yes, close enough\n";
 		return true;
@@ -44,4 +50,4 @@ int main()
 
 
 	return 0;
-}
+}*/
