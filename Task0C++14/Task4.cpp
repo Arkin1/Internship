@@ -1,4 +1,4 @@
-#include<iostream>
+/*#include<iostream>
 #include<type_traits>
 #include<utility>
 #include<vector>
@@ -80,16 +80,16 @@ auto value_range_from(T& arr)
 
 
 
-/*template<typename T, typename... Types>
+template<typename T, typename... Types>
 constexpr T average(Types... args)
 {
 	return (... + args) / sizeof...(args);	
-}*/
+}
 
 
-int main()
+int mainmain()
 {
-	//static_assert(average<float>(2, 3, 5, 2.2f, 11)>4.6);
+	static_assert(average<float>(2, 3, 5, 2.2f, 11)>4.6);
 
 
 	value_range<int> range{ 10, 20 };
@@ -115,4 +115,4 @@ int main()
 
 
 	return 0;
-}
+}*/

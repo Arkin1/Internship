@@ -33,6 +33,9 @@
     <ClCompile Include="Task4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Task5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Task0.h">

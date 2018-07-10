@@ -1,0 +1,5 @@
+INFORMATION All is fine in this fine city
+TRAIN 3, arrival at 8:0
+TRAIN 7, departure at 10:15
+TRAIN 2, arrival at 12:20
+WARNING Please do not litter(medium)
