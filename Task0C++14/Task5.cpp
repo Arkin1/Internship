@@ -3,118 +3,85 @@
 #include<random>
 #include<sstream>
 #include<string>
+#include<map>
 using namespace std;
 
+
+struct Object
+{
+	virtual void print(ostream &os) = 0;
+};
+
+struct InfoObject :Object
+{
+	string msg;
+
+	InfoObject(const string &m) :msg(m) {};
+
+	void print(ostream & os)
+	{
+		os << "INFORMATION " << msg << '\n';
+	}
+};
+
+struct TrainObject :Object
+{
+	const enum class Direction :int { ARRIVAL, DEPARTURE };
+	static map<string, Direction> Direction_map;
+	int train_id;
+	Direction direction;
+	string time;
+
+	TrainObject(int id, Direction dir, string tm) : train_id(id), direction(dir), time(tm) {};
+
+	void print(ostream & os)
+	{
+		os << "TRAIN " << train_id << ", " <<
+			((direction == Direction::ARRIVAL) ? "arrival" : "departure")
+			<< " at " << time << '\n';
+	}
+};
+
+struct WarningObject : Object
+{
+	const enum class Severity :int { NONE, MILD, MEDIUM, HIGH, CRITICAL };
+	static map<string, Severity> Severity_map;
+
+	Severity severity;
+
+	string msg;
+
+	WarningObject(string text, Severity sever): msg(text), severity(sever){}
+
+	void print(ostream & os)
+	{
+		const char* severity_values[5] = { "none", "mild", "medium", "high", "critical" };
+		os << "WARNING " << msg << "(" <<
+			severity_values[static_cast<std::underlying_type_t<Severity>>(severity)] << ")\n";
+	}
+
+
+
+};
 
 struct Message
 {
 public:
 
-	const enum class Type:int { INFORMATION, TRAIN, WARNING };
-	const enum class Direction:int { ARRIVAL, DEPARTURE};
-	const enum class Severity:int { NONE, MILD, MEDIUM, HIGH, CRITICAL };
+	
+	Object *o;
 
-	int train_id;
-	Type type;
-	Direction direction;
-	string msg, time;
 
-	Severity severity;
+	
+	friend istream& operator >> (istream &is, Message& message);
 
-	friend istream& operator >> (istream &is, Message &message)
+
+	friend ostream& operator << (ostream &os, const Message &message)
 	{
+		
 
-		string str, type, dir, time;
-		getline(is, str);
+		message.o->print(os);
 
-
-		istringstream iss(str);
-
-		iss >> type;
-
-		if (type == "INFORMATION")
-		{
-			message.type = Message::Type::INFORMATION;
-			iss.get();
-
-			getline(iss, message.msg);
-		}
-		else if (type == "TRAIN")
-		{
-			message.type = Message::Type::TRAIN;
-			iss >> message.train_id;
-
-			//,
-			iss >> dir;
-
-			iss >> dir;
-
-			if (dir == "arrival")
-				message.direction = Message::Direction::ARRIVAL;
-			else
-				message.direction = Message::Direction::DEPARTURE;
-
-			//at
-			iss >> time;
-			//" "
-			iss.get();
-
-			getline(iss, message.time);
-		}
-		else
-		{
-			message.type = Message::Type::WARNING;
-
-			iss.get();
-
-			string temp;
-
-			getline(iss, temp);
-
-			int last_pos = temp.find_last_of("(");
-
-			message.msg = temp.substr(0, last_pos);
-
-			string severity;
-
-			severity = temp.substr(last_pos + 1, temp.size() - last_pos - 2);
-
-			if (severity == "none") message.severity = Message::Severity::NONE;
-
-			else if (severity == "mild") message.severity = Message::Severity::MILD;
-
-			else if (severity == "medium") message.severity = Message::Severity::MEDIUM;
-
-			else if (severity == "high") message.severity = Message::Severity::HIGH;
-
-			else message.severity = Message::Severity::CRITICAL;
-
-
-
-		}
-
-		return is;
-	}
-
-	friend ostream& operator << (ostream &os, Message &message)
-	{
-		const char* severity_values[5] = { "none", "mild", "medium", "high", "critical" };
-
-		if (message.type == Message::Type::INFORMATION)
-		{
-			os << "INFORMATION " << message.msg << '\n';
-		}
-		else if (message.type == Message::Type::TRAIN)
-		{
-			os << "TRAIN " << message.train_id << ", " <<
-				((message.direction == Message::Direction::ARRIVAL) ? "arrival" : "departure")
-				<< " at " << message.time << '\n';
-		}
-		else
-		{
-			os << "WARNING " << message.msg << "(" << 
-				severity_values[static_cast<std::underlying_type<Message::Severity>::type>(message.severity) ] << ")\n";
-		}
 
 		return os;
 	}
@@ -122,39 +89,110 @@ public:
 
 };
 
+istream& Message::operator >> (istream &is, Message& message)
+{
+
+	string str, type, dir, time, msg;
+	getline(is, str);
+
+
+	istringstream iss(str);
+
+	iss >> type;
+
+	if (type == "INFORMATION")
+	{
+		iss.get();
+
+		getline(iss, msg);
+
+		message.o = new InfoObject(msg);
+
+
+	}
+	else if (type == "TRAIN")
+	{
+		int train_id;
+		string dir, time;
+
+		TrainObject::Direction direction;
+
+		iss >> train_id;
+
+		//,
+		iss >> dir;
+
+		iss >> dir;
+
+		direction = TrainObject::Direction_map[dir];
+
+		//at
+		iss >> time;
+		//" "
+		iss.get();
+
+		getline(iss, time);
+
+		message.o = new TrainObject(train_id, direction, time);
+	}
+	else
+	{
+		string msg;
+
+		WarningObject::Severity severity;
+
+		iss.get();
+
+		string temp;
+
+		getline(iss, temp);
+
+		int last_pos = temp.find_last_of("(");
+
+		msg = temp.substr(0, last_pos);
+
+		string severity_s;
+
+		severity_s = temp.substr(last_pos + 1, temp.size() - last_pos - 2);
+
+		severity = WarningObject::Severity_map[severity_s];
+
+
+
+		message.o = new WarningObject(msg, severity);
+
+
+	}
+
+	return is;
+}
+
+
+map<string, WarningObject::Severity> WarningObject::Severity_map = { { "none", Severity::NONE },
+														 { "mild", Severity::MILD },
+														 { "medium", Severity::MEDIUM },
+														 { "high", Severity::HIGH },
+														 { "critical", Severity::CRITICAL } };
+
+map<string, TrainObject::Direction> TrainObject::Direction_map = { { "arrival", Direction::ARRIVAL },
+												           { "departure", Direction::DEPARTURE } };
+
 
 
 void produce_schedule(const char* name)
 {
 	ofstream out_file(name);
 
-	Message m = {0, Message::Type::INFORMATION , Message::Direction::ARRIVAL, 
-		"All is fine in this fine city", "8:0", Message::Severity::NONE};
+	out_file << Message{new InfoObject("All is fine in this fine city") };
 
 
-	out_file << m;
+	out_file << Message{ new TrainObject(3, TrainObject::Direction::ARRIVAL,"8:0") };
 
-	m = { 3, Message::Type::TRAIN , Message::Direction::ARRIVAL,
-		"", "8:0", Message::Severity::NONE };
+	out_file << Message{ new TrainObject(7, TrainObject::Direction::DEPARTURE,"10:15") };
 
-	out_file << m;
+	out_file << Message{ new TrainObject(2, TrainObject::Direction::ARRIVAL,"12:20") };
 
-	m = { 7, Message::Type::TRAIN , Message::Direction::DEPARTURE,
-		"", "10:15", Message::Severity::NONE };
-
-	out_file << m;
-
-	m = { 2, Message::Type::TRAIN , Message::Direction::ARRIVAL,
-		"", "12:20", Message::Severity::NONE };
-
-	out_file << m;
-
-	m = { 7, Message::Type::WARNING , Message::Direction::ARRIVAL,
-		"Please do not litter", "10:15", Message::Severity::MEDIUM };
-
-
-
-	out_file << m;
+	out_file << Message{ new WarningObject("Please do not litter",WarningObject::Severity::MEDIUM) };
 }
 
 
@@ -162,6 +200,7 @@ void consume(Message &message)
 {
 	cout << message;
 }
+
 
 
 int main()
@@ -172,6 +211,9 @@ int main()
 	ifstream schedule{ "sched.txt" };
 	for (Message msg; schedule >> msg; )
 		consume(msg);
+
+
+
 
 	return 0;
 }
